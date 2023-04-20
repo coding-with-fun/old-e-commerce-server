@@ -30,7 +30,7 @@ const AdminUpdateProfileController = async (
         }: Admin_UpdateProfile_RequestType = req.body.parsedData;
 
         let image: TempFileDataType | null = null;
-        if (profilePictureId != null) {
+        if (profilePictureId != null && profilePictureId !== '') {
             image = await TempFile.findById(profilePictureId);
             if (image == null) {
                 throw new Error('No image found.');
@@ -53,7 +53,7 @@ const AdminUpdateProfileController = async (
         }
         const updatedAdmin = await AdminUpdateOneById(admin._id, args);
 
-        if (profilePictureId != null) {
+        if (profilePictureId != null && profilePictureId !== '') {
             await TempFile.findByIdAndDelete(profilePictureId);
         }
 
