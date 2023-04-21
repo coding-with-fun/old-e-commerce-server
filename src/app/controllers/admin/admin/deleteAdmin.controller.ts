@@ -40,6 +40,8 @@ const AdminDeleteController = async (
             id: adminId,
             args: {
                 deletedAt: new Date(),
+                email: `${admin.email}+${Date.now()}`,
+                contactNumber: `${admin.contactNumber}+${Date.now()}`,
             },
             bypassActivationCheck: true,
             bypassDeleteCheck: true,
