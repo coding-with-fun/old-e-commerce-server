@@ -19,3 +19,27 @@ export const AdminUpdateActivationRequest = object({
 export type Admin_UpdateActivation_RequestType = z.infer<
     typeof AdminUpdateActivationRequest
 >;
+
+// Delete admin.
+export const AdminDeleteRequest = object({
+    body: object({
+        adminId: string({
+            invalid_type_error: 'Admin ID is required.',
+            required_error: 'Admin ID is required.',
+        }).nonempty('Admin ID is required.'),
+    }).refine((data) => mongoose.Types.ObjectId.isValid(data.adminId)),
+});
+export type Admin_Delete_RequestType = z.infer<typeof AdminDeleteRequest>;
+
+// Get admin details.
+export const AdminGetDetailsRequest = object({
+    params: object({
+        adminId: string({
+            invalid_type_error: 'Admin ID is required.',
+            required_error: 'Admin ID is required.',
+        }).nonempty('Admin ID is required.'),
+    }).refine((data) => mongoose.Types.ObjectId.isValid(data.adminId)),
+});
+export type Admin_GetDetails_RequestType = z.infer<
+    typeof AdminGetDetailsRequest
+>;

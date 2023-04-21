@@ -143,10 +143,12 @@ export const AdminUpdateOneById = async ({
     id,
     args,
     bypassActivationCheck = false,
+    bypassDeleteCheck = false,
 }: {
     id: string;
     args: UpdateQuery<IAdminSchema>;
     bypassActivationCheck?: boolean;
+    bypassDeleteCheck?: boolean;
 }): Promise<AdminDataType> => {
     await AdminFindById({
         id,
@@ -157,7 +159,7 @@ export const AdminUpdateOneById = async ({
         new: true,
     });
 
-    if (admin == null || admin.deletedAt != null) {
+    if (admin == null || (admin.deletedAt != null && !bypassDeleteCheck)) {
         throw new Error('Admin not found.');
     }
 
