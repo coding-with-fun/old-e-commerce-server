@@ -95,6 +95,8 @@ export interface IAdminSchema extends Document {
     isActive: boolean;
     isSuperAdmin: boolean;
     deletedAt?: Date;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export type AdminDataType = Document<

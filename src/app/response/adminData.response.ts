@@ -10,6 +10,7 @@ const cleanAdminData = (admin: AdminDataType): CleanAdminType => {
         profilePicture: admin.profilePictureUrl,
         isActive: admin.isActive,
         isSuperAdmin: admin.isSuperAdmin,
+        createdAt: admin.createdAt,
     };
 
     return cleanAdmin;
@@ -26,4 +27,5 @@ export interface CleanAdminType {
     isActive: boolean;
     profilePicture: string;
     isSuperAdmin: boolean;
+    createdAt: Date;
 }
