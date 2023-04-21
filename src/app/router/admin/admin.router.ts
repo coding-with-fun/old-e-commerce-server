@@ -5,12 +5,14 @@ import AdminUpdateActivationController from '../../controllers/admin/admin/updat
 import requestValidator from '../../middlewares/requestValidator';
 import { verifyAdmin } from '../../middlewares/verifyUser';
 import {
+    AdminCreateRequest,
     AdminDeleteRequest,
     AdminGetDetailsRequest,
     AdminListRequest,
     AdminUpdateActivationRequest,
 } from '../../requests/admin/admin.request';
 import AdminGetDetailsController from '../../controllers/admin/admin/getAdminDetails.controller';
+import AdminCreateController from '../../controllers/admin/admin/createAdmin.controller';
 
 const AdminRouter = Router();
 
@@ -26,6 +28,13 @@ AdminRouter.post(
     verifyAdmin,
     requestValidator(AdminUpdateActivationRequest),
     AdminUpdateActivationController
+);
+
+AdminRouter.post(
+    '/create',
+    verifyAdmin,
+    requestValidator(AdminCreateRequest),
+    AdminCreateController
 );
 
 AdminRouter.post(
