@@ -1,6 +1,7 @@
 import { type Request, type Response } from 'express';
 import response from '../../../../libs/response';
 import { type Admin_UpdateActivation_RequestType } from '../../../requests/admin/admin.request';
+import { type AdminDataType } from '../../../schemas/admin.schema';
 import {
     AdminFindById,
     AdminUpdateOneById,
@@ -20,11 +21,22 @@ const AdminUpdateActivationController = async (
         const {
             body: { adminId },
         }: Admin_UpdateActivation_RequestType = req.body.parsedData;
+        const loggedAdmin: AdminDataType = req.body.user;
+
+        if (loggedAdmin._id === adminId) {
+            throw new Error('You can not activate or deactivate yourself.');
+        }
 
         const admin = await AdminFindById({
             id: adminId,
             bypassActivationCheck: true,
         });
+
+        if (admin.isSuperAdmin) {
+            throw new Error(
+                'You can not activate or deactivate the super admin.'
+            );
+        }
 
         await AdminUpdateOneById({
             id: adminId,
