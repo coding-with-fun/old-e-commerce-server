@@ -23,7 +23,7 @@ const AdminUpdateActivationController = async (
         }: Admin_UpdateActivation_RequestType = req.body.parsedData;
         const loggedAdmin: AdminDataType = req.body.user;
 
-        if (loggedAdmin._id === adminId) {
+        if (loggedAdmin._id.toString() === adminId) {
             throw new Error('You can not activate or deactivate yourself.');
         }
 
