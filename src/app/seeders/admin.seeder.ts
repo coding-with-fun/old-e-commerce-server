@@ -25,6 +25,7 @@ const AdminSeeder = async (
             password: await encryptPassword('Abcd@1234'),
             isSuperAdmin: true,
         });
+        admin.adminID = admin._id;
         await admin.save();
 
         return response(req, res, {

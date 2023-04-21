@@ -3,6 +3,7 @@ import { type AdminDataType } from '../schemas/admin.schema';
 const cleanAdminData = (admin: AdminDataType): CleanAdminType => {
     const cleanAdmin = {
         _id: admin._id,
+        adminID: admin.adminID,
         name: admin.name,
         email: admin.email,
         newEmail: admin.newEmail,
@@ -20,6 +21,7 @@ export default cleanAdminData;
 
 export interface CleanAdminType {
     _id: any;
+    adminID: string;
     name: string;
     email: string;
     newEmail: string | undefined;

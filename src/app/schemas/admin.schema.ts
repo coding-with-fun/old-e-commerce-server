@@ -4,6 +4,10 @@ const { Schema } = mongoose;
 
 const adminSchema = new Schema<IAdminSchema>(
     {
+        adminID: {
+            type: String,
+            required: true,
+        },
         name: {
             type: String,
             required: true,
@@ -77,6 +81,7 @@ const Admin = model<IAdminSchema>('Admin', adminSchema);
 export default Admin;
 
 export interface IAdminSchema extends Document {
+    adminID: string;
     name: string;
     profilePictureUrl: string;
     profilePictureFileName: string;
