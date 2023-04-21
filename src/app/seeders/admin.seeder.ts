@@ -15,7 +15,7 @@ const AdminSeeder = async (
         const contactNumber = '+919099976321';
 
         // Delete existing entries.
-        await AdminDeleteMany();
+        await AdminDeleteMany({});
 
         // Create a new entry.
         const admin = new Admin({

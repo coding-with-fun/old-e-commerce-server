@@ -51,7 +51,10 @@ const AdminUpdateProfileController = async (
                 profilePictureFileName: image.fileName,
             };
         }
-        const updatedAdmin = await AdminUpdateOneById(admin._id, args);
+        const updatedAdmin = await AdminUpdateOneById({
+            id: admin._id,
+            args,
+        });
 
         if (profilePictureId != null && profilePictureId !== '') {
             await TempFile.findByIdAndDelete(profilePictureId);

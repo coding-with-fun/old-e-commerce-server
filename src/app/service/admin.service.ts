@@ -11,9 +11,13 @@ import Admin, {
 } from '../schemas/admin.schema';
 import { type PaginationType } from '../middlewares/paginationCleaner';
 
-export const AdminFindOne = async (
-    args: FilterQuery<IAdminSchema>
-): Promise<AdminDataType> => {
+export const AdminFindOne = async ({
+    args,
+    bypassActivationCheck = false,
+}: {
+    args: FilterQuery<IAdminSchema>;
+    bypassActivationCheck: boolean;
+}): Promise<AdminDataType> => {
     const admin = await Admin.findOne({
         ...args,
         deletedAt: null,
@@ -23,32 +27,42 @@ export const AdminFindOne = async (
         throw new Error('Admin not found.');
     }
 
-    if (!admin.isActive) {
+    if (!admin.isActive && !bypassActivationCheck) {
         throw new Error('Admin is not active.');
     }
 
     return admin;
 };
 
-export const AdminFindById = async (id: string): Promise<AdminDataType> => {
+export const AdminFindById = async ({
+    id,
+    bypassActivationCheck = false,
+}: {
+    id: string;
+    bypassActivationCheck?: boolean;
+}): Promise<AdminDataType> => {
     const admin = await Admin.findById(id);
 
     if (admin == null || admin.deletedAt != null) {
         throw new Error('Admin not found.');
     }
 
-    if (!admin.isActive) {
+    if (!admin.isActive && !bypassActivationCheck) {
         throw new Error('Admin is not active.');
     }
 
     return admin;
 };
 
-export const AdminFindAll = async (
-    pagination: PaginationType['pagination'],
-    args?: FilterQuery<IAdminSchema>,
-    options?: QueryOptions<IAdminSchema> | null | undefined
-): Promise<{
+export const AdminFindAll = async ({
+    pagination,
+    args,
+    options,
+}: {
+    pagination: PaginationType['pagination'];
+    args?: FilterQuery<IAdminSchema>;
+    options?: QueryOptions<IAdminSchema> | null | undefined;
+}): Promise<{
     total: number;
     page: number;
     perPage: number;
@@ -125,11 +139,19 @@ export const AdminFindAll = async (
     };
 };
 
-export const AdminUpdateOneById = async (
-    id: string,
-    args: UpdateQuery<IAdminSchema>
-): Promise<AdminDataType> => {
-    await AdminFindById(id);
+export const AdminUpdateOneById = async ({
+    id,
+    args,
+    bypassActivationCheck = false,
+}: {
+    id: string;
+    args: UpdateQuery<IAdminSchema>;
+    bypassActivationCheck?: boolean;
+}): Promise<AdminDataType> => {
+    await AdminFindById({
+        id,
+        bypassActivationCheck,
+    });
 
     const admin = await Admin.findByIdAndUpdate(id, args, {
         new: true,
@@ -142,8 +164,10 @@ export const AdminUpdateOneById = async (
     return admin;
 };
 
-export const AdminDeleteMany = async (
-    args?: FilterQuery<IAdminSchema>
-): Promise<void> => {
+export const AdminDeleteMany = async ({
+    args,
+}: {
+    args?: FilterQuery<IAdminSchema>;
+}): Promise<void> => {
     await Admin.deleteMany(args);
 };

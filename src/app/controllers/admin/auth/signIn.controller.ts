@@ -24,7 +24,9 @@ const AdminSignInController = async (
         }: Admin_SignIn_RequestType = req.body.parsedData;
 
         const admin = await AdminFindOne({
-            email,
+            args: {
+                email,
+            },
         });
 
         const doesPasswordMatch = await comparePassword(
@@ -36,10 +38,13 @@ const AdminSignInController = async (
         }
 
         const otp = generateOTP();
-        await AdminUpdateOneById(admin.id, {
-            $set: {
-                loginOtp: otp,
-                loginOtpSentAt: new Date(),
+        await AdminUpdateOneById({
+            id: admin.id,
+            args: {
+                $set: {
+                    loginOtp: otp,
+                    loginOtpSentAt: new Date(),
+                },
             },
         });
 

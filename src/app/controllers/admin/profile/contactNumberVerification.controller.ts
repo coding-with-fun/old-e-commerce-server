@@ -31,12 +31,15 @@ const AdminVerifyContactNumberController = async (
             sentAt: admin.contactNumberVerificationTokenSentAt,
         });
 
-        const updatedAdmin: AdminDataType = await AdminUpdateOneById(admin.id, {
-            $set: {
-                contactNumber: admin.newContactNumber,
-                contactNumberVerificationToken: null,
-                contactNumberVerificationTokenSentAt: null,
-                newContactNumber: null,
+        const updatedAdmin: AdminDataType = await AdminUpdateOneById({
+            id: admin.id,
+            args: {
+                $set: {
+                    contactNumber: admin.newContactNumber,
+                    contactNumberVerificationToken: null,
+                    contactNumberVerificationTokenSentAt: null,
+                    newContactNumber: null,
+                },
             },
         });
 

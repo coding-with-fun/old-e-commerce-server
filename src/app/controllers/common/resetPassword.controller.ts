@@ -28,16 +28,21 @@ const ResetPasswordController = async (
 
         if (data.type === USER_TYPES.ADMIN) {
             // Check if admin has requested the password reset
-            const admin = await AdminFindById(data.id);
+            const admin = await AdminFindById({
+                id: data.id,
+            });
             if (admin.passwordVerificationToken == null) {
                 throw new Error('Admin not found.');
             }
 
             // Set new password and remove the token
-            await AdminUpdateOneById(data.id, {
-                $set: {
-                    passwordVerificationToken: null,
-                    password: await encryptPassword(password),
+            await AdminUpdateOneById({
+                id: data.id,
+                args: {
+                    $set: {
+                        passwordVerificationToken: null,
+                        password: await encryptPassword(password),
+                    },
                 },
             });
         } else {

@@ -22,11 +22,14 @@ const AdminUpdateContactNumberController = async (
         }: Admin_UpdateContactNumberRequest_RequestType = req.body.parsedData;
 
         const contactNumberVerificationToken = generateOTP(4);
-        await AdminUpdateOneById(admin.id, {
-            $set: {
-                contactNumberVerificationToken,
-                newContactNumber: contactNumber,
-                contactNumberVerificationTokenSentAt: new Date(),
+        await AdminUpdateOneById({
+            id: admin.id,
+            args: {
+                $set: {
+                    contactNumberVerificationToken,
+                    newContactNumber: contactNumber,
+                    contactNumberVerificationTokenSentAt: new Date(),
+                },
             },
         });
 

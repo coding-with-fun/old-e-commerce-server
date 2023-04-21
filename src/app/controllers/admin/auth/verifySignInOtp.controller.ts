@@ -27,7 +27,9 @@ const AdminVerifySignInOtpController = async (
         }: Admin_VerifySignInOtp_RequestType = req.body.parsedData;
 
         const admin = await AdminFindOne({
-            email,
+            args: {
+                email,
+            },
         });
 
         verifyOTP({
@@ -35,10 +37,13 @@ const AdminVerifySignInOtpController = async (
             savedOTP: admin.loginOtp,
             sentAt: admin.loginOtpSentAt,
         });
-        const updatedAdmin: AdminDataType = await AdminUpdateOneById(admin.id, {
-            $set: {
-                loginOtp: null,
-                loginOtpSentAt: null,
+        const updatedAdmin: AdminDataType = await AdminUpdateOneById({
+            id: admin.id,
+            args: {
+                $set: {
+                    loginOtp: null,
+                    loginOtpSentAt: null,
+                },
             },
         });
 

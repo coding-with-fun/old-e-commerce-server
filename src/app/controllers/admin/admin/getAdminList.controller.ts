@@ -17,7 +17,9 @@ const AdminGetAdminListController = async (
     try {
         const { pagination }: Admin_List_RequestType = req.body.parsedData;
 
-        const { admins, page, perPage, total } = await AdminFindAll(pagination);
+        const { admins, page, perPage, total } = await AdminFindAll({
+            pagination
+        });
         return response(req, res, {
             message: 'Admins fetched successfully.',
             admins: admins.map((admin) => {

@@ -25,4 +25,5 @@ export interface CleanAdminType {
     contactNumber: string;
     isActive: boolean;
     profilePicture: string;
+    isSuperAdmin: boolean;
 }

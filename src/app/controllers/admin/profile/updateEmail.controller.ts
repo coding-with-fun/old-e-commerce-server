@@ -35,10 +35,13 @@ const AdminUpdateEmailController = async (
             },
             '1h'
         );
-        await AdminUpdateOneById(admin.id, {
-            $set: {
-                emailVerificationToken,
-                newEmail: email,
+        await AdminUpdateOneById({
+            id: admin.id,
+            args: {
+                $set: {
+                    emailVerificationToken,
+                    newEmail: email,
+                },
             },
         });
 

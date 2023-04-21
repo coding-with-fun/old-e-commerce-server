@@ -27,7 +27,9 @@ const EmailVerificationController = async (
 
         if (data.type === USER_TYPES.ADMIN) {
             // Check if admin has requested the email change
-            const admin = await AdminFindById(data.id);
+            const admin = await AdminFindById({
+                id: data.id,
+            });
             if (
                 admin.emailVerificationToken == null ||
                 admin.newEmail !== data.email
@@ -36,11 +38,14 @@ const EmailVerificationController = async (
             }
 
             // Set new email, remove temporary email and remove the token
-            await AdminUpdateOneById(data.id, {
-                $set: {
-                    emailVerificationToken: null,
-                    email: data.email,
-                    newEmail: null,
+            await AdminUpdateOneById({
+                id: data.id,
+                args: {
+                    $set: {
+                        emailVerificationToken: null,
+                        email: data.email,
+                        newEmail: null,
+                    },
                 },
             });
         } else {

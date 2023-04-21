@@ -29,7 +29,9 @@ const AdminForgotPasswordController = async (
         }: Admin_ForgotPassword_RequestType = req.body.parsedData;
 
         const admin = await AdminFindOne({
-            email,
+            args: {
+                email,
+            },
         });
 
         const passwordVerificationToken = signJWT(
@@ -39,9 +41,12 @@ const AdminForgotPasswordController = async (
             },
             '1h'
         );
-        await AdminUpdateOneById(admin.id, {
-            $set: {
-                passwordVerificationToken,
+        await AdminUpdateOneById({
+            id: admin.id,
+            args: {
+                $set: {
+                    passwordVerificationToken,
+                },
             },
         });
 

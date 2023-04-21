@@ -34,7 +34,9 @@ export const verifyAdmin = async (
             token
         )) as jwtDataType;
 
-        const admin = await AdminFindById(data.id);
+        const admin = await AdminFindById({
+            id: data.id,
+        });
         req.body.user = admin;
 
         next();
