@@ -97,7 +97,6 @@ export const AdminFindAll = async ({
                 },
             ],
             deletedAt: null,
-            isActive: true,
         },
         null,
         {
