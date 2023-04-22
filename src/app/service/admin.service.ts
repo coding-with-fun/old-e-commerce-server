@@ -16,7 +16,7 @@ export const AdminFindOne = async ({
     bypassActivationCheck = false,
 }: {
     args: FilterQuery<IAdminSchema>;
-    bypassActivationCheck: boolean;
+    bypassActivationCheck?: boolean;
 }): Promise<AdminDataType> => {
     const admin = await Admin.findOne({
         ...args,

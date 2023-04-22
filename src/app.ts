@@ -17,6 +17,7 @@ const StartServer = async (): Promise<void> => {
 
     const httpServer = Server(app);
     await httpServer.start();
+    httpServer.initializeSocket();
 
     await connectDB();
     await cronSetup();

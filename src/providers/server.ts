@@ -2,11 +2,13 @@ import { type Application } from 'express';
 import http from 'http';
 import env from '../env';
 import logger from './logger';
+import { Server as IoServer } from 'socket.io';
 
 const Server = (
     app: Application
 ): {
     start: () => Promise<void>;
+    initializeSocket: () => void;
 } => {
     const server = http.createServer(app);
 
@@ -22,6 +24,27 @@ const Server = (
 
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         server.on('error', onError);
+    };
+
+    const initializeSocket = (): void => {
+        const io = new IoServer(server, {
+            cors: {
+                origin: '*',
+            },
+        });
+
+        io.on('connection', (socket) => {
+            console.log('A new user is connected');
+
+            socket.on('disconnect', () => {
+                console.log('A user is disconnected');
+            });
+        });
+
+        app.use((req, res, next) => {
+            req.body.io = io;
+            next();
+        });
     };
 
     /**
@@ -53,6 +76,7 @@ const Server = (
 
     return {
         start,
+        initializeSocket,
     };
 };
 
