@@ -3,6 +3,7 @@ import http from 'http';
 import env from '../env';
 import logger from './logger';
 import { Server as IoServer } from 'socket.io';
+import socketEvents from '../socket';
 
 const Server = (
     app: Application
@@ -26,7 +27,7 @@ const Server = (
         server.on('error', onError);
     };
 
-    const initializeSocket = (): void => {
+    const initializeSocket = (): IoServer => {
         const io = new IoServer(server, {
             cors: {
                 origin: '*',
@@ -36,15 +37,16 @@ const Server = (
         io.on('connection', (socket) => {
             console.log('A new user is connected');
 
+            socketEvents(io, socket);
+
             socket.on('disconnect', () => {
                 console.log('A user is disconnected');
             });
         });
 
-        app.use((req, res, next) => {
-            req.body.io = io;
-            next();
-        });
+        app.set('socketio', io);
+
+        return io;
     };
 
     /**

@@ -54,7 +54,8 @@ const AdminVerifySignInOtpController = async (
         };
         const token = signJWT(jwtPayload);
 
-        req.body.io.emit('new-user', {
+        const io = req.app.get('socketio');
+        io.emit('new_user', {
             content: 'New user signed in...',
         });
 
