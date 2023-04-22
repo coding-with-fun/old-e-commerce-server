@@ -66,6 +66,9 @@ export const AdminFindAll = async ({
     total: number;
     page: number;
     perPage: number;
+    field: string;
+    sort: string;
+    query: string;
     admins: Array<
         Document<unknown, Record<string, unknown>, IAdminSchema> &
             Omit<
@@ -137,6 +140,9 @@ export const AdminFindAll = async ({
         total: count,
         page,
         perPage,
+        field: sortBy,
+        sort: sortType,
+        query,
         admins,
     };
 };
