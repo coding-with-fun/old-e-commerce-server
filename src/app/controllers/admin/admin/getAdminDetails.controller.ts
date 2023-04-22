@@ -25,7 +25,7 @@ const AdminGetDetailsController = async (
         });
 
         return response(req, res, {
-            message: 'Admin deleted successfully.',
+            message: 'Admin details fetched successfully.',
             admin: cleanAdminData(admin),
         });
     } catch (error) {
