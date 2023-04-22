@@ -129,6 +129,9 @@ export const AdminFindAll = async ({
                     {
                         contactNumber: new RegExp(query, 'i'),
                     },
+                    {
+                        adminID: new RegExp(query, 'i'),
+                    },
                 ],
             },
         ],
