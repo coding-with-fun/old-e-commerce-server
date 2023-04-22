@@ -1,4 +1,5 @@
 import { type Request, type Response } from 'express';
+import { type Server } from 'socket.io';
 import response from '../../../../libs/response';
 import { type Admin_VerifySignInOtp_RequestType } from '../../../requests/admin/auth.request';
 import cleanAdminData from '../../../response/adminData.response';
@@ -54,7 +55,7 @@ const AdminVerifySignInOtpController = async (
         };
         const token = signJWT(jwtPayload);
 
-        const io = req.app.get('socketio');
+        const io: Server = req.app.get('socketio');
         io.emit('new_user', {
             content: 'New user signed in...',
         });

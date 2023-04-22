@@ -35,6 +35,7 @@ const Server = (
         });
 
         io.on('connection', (socket) => {
+            app.set('socket', socket);
             console.log('A new user is connected');
 
             socketEvents(io, socket);

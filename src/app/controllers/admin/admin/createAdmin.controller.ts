@@ -1,4 +1,5 @@
 import { type Request, type Response } from 'express';
+import { type Socket } from 'socket.io';
 import response from '../../../../libs/response';
 import { type Admin_Create_RequestType } from '../../../requests/admin/admin.request';
 import Admin from '../../../schemas/admin.schema';
@@ -48,6 +49,11 @@ const AdminCreateController = async (
         });
         admin.adminID = admin._id;
         await admin.save();
+
+        const socket: Socket = req.app.get('socket');
+        socket.broadcast.emit('entry_updated', {
+            admin,
+        });
 
         // Delete entry from Temp table once the entry is created.
         if (profilePictureId != null && profilePictureId !== '') {
