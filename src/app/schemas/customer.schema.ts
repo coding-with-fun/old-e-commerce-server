@@ -1,10 +1,10 @@
-import mongoose, { type Document, type ObjectId, model } from 'mongoose';
+import mongoose, { model, type Document, type ObjectId } from 'mongoose';
 
 const { Schema } = mongoose;
 
-const adminSchema = new Schema<IAdminSchema>(
+const customerSchema = new Schema<ICustomerSchema>(
     {
-        adminID: {
+        customerID: {
             type: String,
             required: true,
         },
@@ -63,10 +63,6 @@ const adminSchema = new Schema<IAdminSchema>(
             type: Boolean,
             default: true,
         },
-        isSuperAdmin: {
-            type: Boolean,
-            default: false,
-        },
         deletedAt: {
             type: Date,
         },
@@ -76,12 +72,12 @@ const adminSchema = new Schema<IAdminSchema>(
     }
 );
 
-const Admin = model<IAdminSchema>('Admin', adminSchema);
+const Customer = model<ICustomerSchema>('Customer', customerSchema);
 
-export default Admin;
+export default Customer;
 
-export interface IAdminSchema extends Document {
-    adminID: string;
+export interface ICustomerSchema extends Document {
+    customerID: string;
     name: string;
     profilePictureUrl?: string;
     profilePictureFileName?: string;
@@ -97,8 +93,8 @@ export interface IAdminSchema extends Document {
     passwordVerificationToken?: string;
     loginOtp?: string;
     loginOtpSentAt?: Date;
+    address?: string;
     isActive: boolean;
-    isSuperAdmin: boolean;
     deletedAt?: Date;
     createdAt: Date;
     updatedAt: Date;
@@ -107,10 +103,10 @@ export interface IAdminSchema extends Document {
 export type AdminDataType = Document<
     unknown,
     Record<string, unknown>,
-    IAdminSchema
+    ICustomerSchema
 > &
     Omit<
-        IAdminSchema & {
+        ICustomerSchema & {
             _id: ObjectId;
         },
         never
